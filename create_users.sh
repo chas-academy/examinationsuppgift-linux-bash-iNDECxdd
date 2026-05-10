@@ -15,7 +15,7 @@ do
     HOME="/home/$USERNAME"
     WELCOME="$HOME/welcome.txt"
 
-    #Skapar mappar
+    #Skapar mappar i hemkatalogen
     mkdir -p "$HOME/Downloads"
     mkdir -p "$HOME/Documents"
     mkdir -p "$HOME/Work"
@@ -26,11 +26,18 @@ do
     #Bara användaren kommer åt hemkatalogen
     chmod -R 700 "$HOME"
 
-    #Skapar en användarlista med hjälp av en filtrering av /etc/passw där alla övriga användare med UID 1000 eller högre är med (vanliga användare)
+    #Skapar välkomstfilen, for-loopen lägger till en lista över övriga användare från inparametrarna "$@", exklusive den aktuella användaren
     echo "Välkommen $USERNAME" > "$WELCOME"
+    echo "" >> "$WELCOME"
     echo "Övriga användare:" >> "$WELCOME"
-    awk -F: '$3 >= 1000 {print $1}' /etc/passwd | grep -v "$USERNAME" >> "$WELCOME"
+    for user in "$@"
+    do
+        if [ "$user" != "$USERNAME" ]; then
+        echo "$user" >> "$WELCOME"
+        fi
+    done
     
-    #Ändrar rättigheter så alla kan läsa filen men bara ägaren kan ändra den.
+    #Ändrar rättigheter så alla kan läsa filen men bara ägaren kan ändra
     chmod 644 "$WELCOME"
+
 done
