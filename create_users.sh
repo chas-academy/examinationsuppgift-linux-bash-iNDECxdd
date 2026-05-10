@@ -11,7 +11,7 @@ fi
 #Skapar nya användare, for-loop används för att gå igenom alla parametrar i $@
 for användarnamn in "$@"
 do 
-    sudo useradd -m "$användarnamn"
+    useradd -m "$användarnamn"
 done
 
 #Lägger till mappar i skel som nya användare får automatiskt
