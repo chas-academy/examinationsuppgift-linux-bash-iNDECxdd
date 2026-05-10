@@ -5,5 +5,8 @@ sudo /etc/skel/Downloads
 sudo /etc/skel/Documents
 sudo /etc/skel/Work
 
-#Skapar nya användare, $@ används för att ta emot flera parametrar utan att veta hur många vi får
-sudo useradd "$@"
+#Skapar nya användare, for-loop används för att gå igenom alla parametrar i $@
+for användarnamn in "$@"
+do 
+    sudo useradd "$användarnamn"
+done
