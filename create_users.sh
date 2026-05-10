@@ -8,29 +8,17 @@ then
     exit 1
 fi
 
-#Skapar nya användare, for-loop används för att gå igenom alla parametrar i $@
-for user in "$@"
+#Skapar nya användare och mappar, for-loop används för att gå igenom alla parametrar i $@
+for username in "$@"
 do 
-    useradd -m "$user"
+    useradd -m "$username"
+
+    homedir="/home/$username"
+    welcome="$homedir/welcome.txt"
+
+    mkdir -p "$homedir/Downloads"
+    mkdir -p "$homedir/Documents"
+    mkdir -p "$homedir/Work"
+
+    chown -R "$username:$username" "$homedir"
 done
-
-#Lägger till mappar i skel som nya användare får automatiskt
-Downloads="/etc/skel/Downloads"
-Documents="/etc/skel/Documents"
-Work="/etc/skel/Work"
-
-if test ! -d "$Downloads"
-then
-    mkdir /etc/skel/Downloads
-fi
-
-if test ! -d "$Documents"
-then
-    mkdir /etc/skel/Documents
-fi
-
-if test ! -d "$Work"
-then
-    mkdir /etc/skel/Work
-fi
-
