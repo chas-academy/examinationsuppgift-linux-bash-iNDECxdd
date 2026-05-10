@@ -7,6 +7,11 @@ then
     exit 1
 fi
 
+if [ "$#" -eq 0 ]; then
+    echo "Vänligen ange användarnamn"
+    exit 1
+fi
+
 #Skapar nya användare och mappar, for-loop används för att gå igenom alla parametrar i $@
 for username in "$@"
 do 
