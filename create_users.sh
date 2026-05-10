@@ -7,17 +7,12 @@ then
     exit 1
 fi
 
-if [ "$#" -eq 0 ]; then
-    echo "Vänligen ange användarnamn"
-    exit 1
-fi
-
 #Skapar nya användare och mappar, for-loop används för att gå igenom alla parametrar i $@
-for username in "$@"
+for USERNAME in "$@"
 do 
     #Skapar användare med en hemkatalog
-    useradd -m "$username"
-    homedir="/home/$username"
+    useradd -m "$USERNAME"
+    homedir="/home/$USERNAME"
     welcome="$homedir/welcome.txt"
 
     #Skapar mappar
@@ -26,13 +21,13 @@ do
     mkdir -p "$homedir/Work"
 
     #Ger ägande över hemkatalogen till användaren
-    chown -R "$username:$username" "$homedir"
+    chown -R "$USERNAME:$USERNAME" "$homedir"
 
     #Bara användaren kommer åt hemkatalogen
     chmod -R 700 "$homedir"
 
     #Lägger till användaren till välkomstfilen
-    echo "Välkommen $username" >"$welcome"
+    echo "Välkommen $USERNAME" >"$welcome"
     echo "Övriga användare:" >> "$welcome"
 
     #Ändrar rättigheter så alla kan läsa filen
