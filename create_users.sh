@@ -13,7 +13,7 @@ do
     #Skapar användare med en hemkatalog
     useradd -m "$USERNAME"
     HOME_DIRECTORY="/home/$USERNAME"
-    WELCOME="$HOME/welcome.txt"
+    WELCOME="$HOME_DIRECTORY/welcome.txt"
 
     #Skapar mappar i hemkatalogen
     mkdir -p "$HOME_DIRECTORY/Downloads"
