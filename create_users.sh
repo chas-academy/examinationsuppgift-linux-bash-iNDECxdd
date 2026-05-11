@@ -12,19 +12,19 @@ for USERNAME in "$@"
 do 
     #Skapar användare med en hemkatalog
     useradd -m "$USERNAME"
-    HOME="/home/$USERNAME"
+    HOME_DIRECTORY="/home/$USERNAME"
     WELCOME="$HOME/welcome.txt"
 
     #Skapar mappar i hemkatalogen
-    mkdir -p "$HOME/Downloads"
-    mkdir -p "$HOME/Documents"
-    mkdir -p "$HOME/Work"
+    mkdir -p "$HOME_DIRECTORY/Downloads"
+    mkdir -p "$HOME_DIRECTORY/Documents"
+    mkdir -p "$HOME_DIRECTORY/Work"
 
     #Ger ägande över hemkatalogen till användaren
-    chown -R "$USERNAME:$USERNAME" "$HOME"
+    chown -R "$USERNAME:$USERNAME" "HOME_DIRECTORY"
 
     #Bara användaren kommer åt hemkatalogen
-    chmod -R 700 "$HOME"
+    chmod -R 700 "$HOME_DIRECTORY"
 
     #Skapar välkomstfilen, for-loopen lägger till en lista över övriga användare från inparametrarna "$@", exklusive den aktuella användaren
     echo "Välkommen $USERNAME" > "$WELCOME"
