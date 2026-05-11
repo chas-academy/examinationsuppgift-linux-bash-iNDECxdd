@@ -36,7 +36,7 @@ do
         echo "$user" >> "$WELCOME"
         fi
     done
-    
+
     #Ändrar rättigheter så alla kan läsa filen men bara ägaren kan ändra
     chmod 644 "$WELCOME"
 
