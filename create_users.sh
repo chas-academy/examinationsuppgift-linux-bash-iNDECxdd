@@ -21,7 +21,7 @@ do
     mkdir -p "$HOME_DIRECTORY/Work"
 
     #Ger ägande över hemkatalogen till användaren
-    chown -R "$USERNAME:$USERNAME" "HOME_DIRECTORY"
+    chown -R "$USERNAME:$USERNAME" "$HOME_DIRECTORY"
 
     #Bara användaren kommer åt hemkatalogen
     chmod -R 700 "$HOME_DIRECTORY"
