@@ -1,22 +1,13 @@
 #!/bin/bash
 
 #Kollar om användaren är root eller inte
-if [ "$EUID" -ne 0 ];
-then
+if [ "$EUID" -ne 0 ]; then
     echo "Du har ej behörighet att köra detta script"
     exit 1
 fi
 
-#Kollar så att användaren anger ett användarnmn
-if [ "$#" -eq 0 ];
-then
-    echo "Du måste ange ett användarnamn"
-    exit 1
-fi
-
 #Skapar nya användare och mappar, for-loop används för att gå igenom alla parametrar i $@
-for USERNAME in "$@"
-do 
+for USERNAME in "$@"; do 
     #Skapar användare med en hemkatalog
     useradd -m "$USERNAME"
     HOME_DIRECTORY="/home/$USERNAME"
@@ -37,8 +28,7 @@ do
     echo "Välkommen $USERNAME" > "$WELCOME"
     echo "" >> "$WELCOME"
     echo "Övriga användare:" >> "$WELCOME"
-    for user in "$@"
-    do
+    for user in "$@"; do
         if [ "$user" != "$USERNAME" ]; then
         echo "$user" >> "$WELCOME"
         fi
