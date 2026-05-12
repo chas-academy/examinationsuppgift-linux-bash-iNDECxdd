@@ -9,7 +9,7 @@ fi
 #Skapar nya användare och mappar, for-loop används för att gå igenom alla parametrar i $@
 for USERNAME in "$@"; do 
     #Skapar användare med en hemkatalog
-    useradd -m "$USERNAME"
+    adduser -m "$USERNAME"
     HOME_DIRECTORY="/home/$USERNAME"
     WELCOME="$HOME_DIRECTORY/welcome.txt"
 
