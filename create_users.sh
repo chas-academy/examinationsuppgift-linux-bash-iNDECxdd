@@ -7,6 +7,13 @@ then
     exit 1
 fi
 
+#Kollar så att användaren anger ett användarnmn
+if [ "$#" -eq 0 ];
+then
+    echo "Du måste ange ett användarnamn"
+    exit 1
+fi
+
 #Skapar nya användare och mappar, for-loop används för att gå igenom alla parametrar i $@
 for USERNAME in "$@"
 do 
