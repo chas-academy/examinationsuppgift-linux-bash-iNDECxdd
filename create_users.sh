@@ -1,21 +1,23 @@
 #!/bin/bash
 
-# Hämtar användarID
-USER_ID=$(id -u) 
+user_id=$(id -u) 
 
-# echo $USER_ID
+# echo $user_id
 
-# Kollar om användarens ID är 0
-if [[ $USER_ID -ne 0 ]]; then
-    echo "Måste köras som root"
+if [[ $user_id -ne 0 ]]; then
+    echo "Need to run as root"
     exit 1
 fi
 
-# Loopar genom alla parametrar och skapar användare samt hemkatalog med tillhörande mappar och välkomstfil
+mkdir /log/
+
 for user in $@; do
-    echo "Skapar användare $user"
     adduser $user 
-    
     mkdir -p "/home/$user/Documents" "/home/$user/Downloads" "/home/$user/Work"
+    echo "$user" >> /log/users
+    echo "Välkommen $user" > /home/$user/welcome.txt
+    # echo " " >> /home/$user/welcome.txt
+    # cat /log/users >> /home/$user/welcome.txt
     
+    chown $user /home/$user/* && chgrp $user /home/$user/* && chmod 700 /home/$user/*
 done
