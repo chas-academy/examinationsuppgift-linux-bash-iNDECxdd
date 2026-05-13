@@ -1,41 +1,26 @@
 #!/bin/bash
 
-#Kollar om användaren är root eller inte
+# Skriver ut användarens ID
+echo $EUID
+
+# Kollar om användarens ID är 0 (root) och stoppar scriptet om det inte är root
 if [ "$EUID" -ne 0 ]; then
-    echo "Du är inte root"
+    echo "Måste köras som root"
     exit 1
 fi
 
-#Skapar nya användare och mappar, for-loop används för att gå igenom alla parametrar i $@
-for USERNAME in "$@"; do 
-    #Skapar användare med en hemkatalog
-    echo "Skapar användare och hemkatalog"
+# Loopar genom alla parametrar och skapar användare samt hemkatalog med tillhörande mappar och välkomstfil
+for USERNAME in "$@"; do
+    echo "Skapar användare $USERNAME"
+    #Skapar användare med hemkatalog (-m)
     useradd -m "$USERNAME"
-    HOME_DIRECTORY="/home/$USERNAME"
-    WELCOME="$HOME_DIRECTORY/welcome.txt"
 
-    #Skapar mappar i hemkatalogen
-    mkdir -p "$HOME_DIRECTORY/Downloads"
-    mkdir -p "$HOME_DIRECTORY/Documents"
-    mkdir -p "$HOME_DIRECTORY/Work"
+    HOMEDIRECTORY="/home/$USERNAME"
+    WELCOMETEXT="$HOMEDIRECTORY/welcome.txt"
 
-    #Ger ägande över hemkatalogen till användaren
-    chown -R "$USERNAME:$USERNAME" "$HOME_DIRECTORY"
+    # Skapar mappar i hemkatalogen
+    mkdir -p "$HOMEDIRECTORY/Downloads" "$HOMEDIRECTORY/Documents" "$HOMEDIRECTORY/Work"
 
-    #Bara användaren kommer åt hemkatalogen
-    chmod -R 700 "$HOME_DIRECTORY"
-
-    #Skapar välkomstfilen, for-loopen lägger till en lista över övriga användare från inparametrarna "$@", exklusive den aktuella användaren
-    echo "Välkommen $USERNAME" > "$WELCOME"
-    echo "" >> "$WELCOME"
-    echo "Övriga användare:" >> "$WELCOME"
-    for user in "$@"; do
-        if [ "$user" != "$USERNAME" ]; then
-        echo "$user" >> "$WELCOME"
-        fi
-    done
-
-    #Ändrar rättigheter så alla kan läsa filen men bara ägaren kan ändra
-    chmod 644 "$WELCOME"
-
+    echo "Välkommen $USERNAME" >> "$WELCOMETEXT"
+    
 done
