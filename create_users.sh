@@ -1,43 +1,32 @@
 #!/bin/bash
 
-# get user id of curent user
-user_id=$(id -u) 
-
-# echo $user_id
-
-# checks if user id is not 0
-if [[ $user_id -ne 0 ]]; then
-    echo "Need to run as root"
+#Kolla om scriptet körs som root eller inte
+if [ "$EUID" -ne 0 ]; then
+    echo "Måste köras som root"
     exit 1
 fi
 
-echo "is root"
-mkdir /log/ # skapar ifall finns
+for USERNAME in "$@"; do
+    useradd -m "$USERNAME"
 
-echo ""
+    HOME_DIR="/home/$USERNAME"
 
-# loop vi igen arguemt som gavs
-for usr in $@; do
-    echo "creating user $usr"
-    adduser --disabled-password --comment "" $usr 
-    echo creating Documents, Download and Work dirs
-    mkdir -p "/home/$usr/Documents" "/home/$usr/Downloads" "/home/$usr/Work"
-    echo "adding user to user log file" 
-    echo "$usr" >> /log/users
-    echo "Välkommen $usr" > /home/$usr/welcome.txt
-    # echo " " >> /home/$usr/welcome.txt
-    # cat /log/users >> /home/$usr/welcome.txt
-    echo "handeling user perms"
-    chown $usr /home/$usr/* && chgrp $usr /home/$usr/* && chmod 700 /home/$usr/* 
-    echo $(ls -lR /home/$usr/)
-    echo ""
-    echo ""
-done
+    mkdir -p "$HOME_DIR/Documents" "$HOME_DIR/Downloads" "$HOME_DIR/Work"
 
+    echo "Välkommen $USERNAME" > "$HOME_DIR/welcome.txt"
+    echo "" >> "$HOME_DIR/welcome.txt"
+    echo "Övriga användare:" >> "$HOME_DIR/welcome.txt"
 
-for usr in $@; do
-cat /log/users >> /home/$usr/welcome.txt
-cat /home/$usr/welcome.txt
-echo ""
-echo ""
+    for OTHERS in "$@"; do
+        if [ "$OTHERS" != "$USERNAME" ] then
+            echo "$OTHERS" >> "$HOME_DIR/welcome.txt"
+        fi
+    done
+
+    chown -R "$USERNAME:$USERNAME" "$HOME_DIR"
+    chmod 700 "$HOME_DIR"
+    chmod 700 "$HOME_DIR/Documents"
+    chmod 700 "$HOME_DIR/Downloads"
+    chmod 700 "$HOME_DIR/Work"
+    chmod 644 "$HOME_DIR/welcome.txt2
 done
