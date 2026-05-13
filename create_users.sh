@@ -4,7 +4,7 @@
 echo $EUID
 
 # Kollar om användarens ID är 0 (root) och stoppar scriptet om det inte är root
-if [ "$EUID" -ne 0 ]; then
+if [ $EUID -ne 0 ]; then
     echo "Måste köras som root"
     exit 1
 fi
@@ -12,8 +12,8 @@ fi
 # Loopar genom alla parametrar och skapar användare samt hemkatalog med tillhörande mappar och välkomstfil
 for USERNAME in $@; do
     echo "Skapar användare $USERNAME"
-    #Skapar användare med hemkatalog (-m)
-    useradd -m "$USERNAME"
+    # Skapar användare med hemkatalog (-m)
+    useradd -m $USERNAME
 
     HOMEDIRECTORY="/home/$USERNAME"
     WELCOMETEXT="$HOMEDIRECTORY/welcome.txt"
@@ -22,5 +22,5 @@ for USERNAME in $@; do
     mkdir -p "$HOMEDIRECTORY/Downloads" "$HOMEDIRECTORY/Documents" "$HOMEDIRECTORY/Work"
 
     echo "Välkommen $USERNAME" >> "$WELCOMETEXT"
-    
+
 done
