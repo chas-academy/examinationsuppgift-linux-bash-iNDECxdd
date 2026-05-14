@@ -1,16 +1,17 @@
 #!/bin/bash
 
-#Kolla om scriptet körs som root eller inte
+#Kollar om användaren är root
 if [ "$EUID" -ne 0 ]; then
-    echo "Måste köras som root"
+    echo "måste köras som root"
     exit 1
 fi
 
+#Skapar användare, hemkatalog samt ändrar äganderätt och behörighet. Skapar även en välkomstfil som innehåller alla användare
 for USERNAME in "$@"; do
+    echo "Lägger till användare: $USERNAME"
     useradd -m "$USERNAME"
 
     HOME_DIR="/home/$USERNAME"
-
     mkdir -p "$HOME_DIR/Documents" "$HOME_DIR/Downloads" "$HOME_DIR/Work"
 
     echo "Välkommen $USERNAME" > "$HOME_DIR/welcome.txt"
@@ -19,7 +20,7 @@ for USERNAME in "$@"; do
 
     for OTHERS in "$@"; do
         if [ "$OTHERS" != "$USERNAME" ]; then
-            echo "$OTHERS" >> "$HOME_DIR/welcome.txt"
+            echo "OTHERS" >> "$HOME_DIR/welcome.txt"
         fi
     done
 
