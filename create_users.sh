@@ -18,7 +18,7 @@ for USERNAME in "$@"; do
     echo "Övriga användare:" >> "$HOME_DIR/welcome.txt"
 
     for OTHERS in "$@"; do
-        if [ "$OTHERS" != "$USERNAME" ] then
+        if [ "$OTHERS" != "$USERNAME" ]; then
             echo "$OTHERS" >> "$HOME_DIR/welcome.txt"
         fi
     done
