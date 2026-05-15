@@ -31,6 +31,7 @@ for USERNAME in "$@"; do
     done
 
     chown -R "$USERNAME:$USERNAME" "$HOME_DIR"
+    chmod 700 "$HOME_DIR"
     chmod 700 "$HOME_DIR/Documents"
     chmod 700 "$HOME_DIR/Downloads"
     chmod 700 "$HOME_DIR/Work"
