@@ -7,7 +7,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 #
-if [ $# -eq 0 ]; then
+if [ "$#" -eq 0 ]; then
     echo "Du glömde ange användare"
     exit 1
 fi
@@ -26,7 +26,7 @@ for USERNAME in "$@"; do
 
     for OTHERS in "$@"; do
         if [ "$OTHERS" != "$USERNAME" ]; then
-            echo "OTHERS" >> "$HOME_DIR/welcome.txt"
+            echo "$OTHERS" >> "$HOME_DIR/welcome.txt"
         fi
     done
 
