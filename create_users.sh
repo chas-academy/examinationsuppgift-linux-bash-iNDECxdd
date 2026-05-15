@@ -6,6 +6,12 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+#
+if [ $# -eq 0 ]; then
+    echo "Du glömde ange användare"
+    exit 1
+fi
+
 #Skapar användare, hemkatalog samt ändrar äganderätt och behörighet. Skapar även en välkomstfil som innehåller alla användare
 for USERNAME in "$@"; do
     echo "Lägger till användare: $USERNAME"
