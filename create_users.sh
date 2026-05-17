@@ -39,5 +39,5 @@ for USERNAME in "$@"; do
     chmod 700 "$HOME_DIR/Documents"
     chmod 700 "$HOME_DIR/Downloads"
     chmod 700 "$HOME_DIR/Work"
-    chmod 644 "$HOME_DIR/welcome.txt"
+    chmod 700 "$HOME_DIR/welcome.txt"
 done
